@@ -4,12 +4,12 @@ def index():
 
     #verifica se foi feito uma requisição post para o servidor
     if request.post_vars:
-        #seta o tipo como zero (movendo-se)
+        #seta o tipo como zero (parado)
         tipo = 0
         #pega o dado vindo do servidor
         dado = int(request.post_vars.movimento)
-        #verifica o valor de aceleração se for menor que 50.000
-        #está se movimentando, se for maior está sentado
+        #verifica o valor de aceleração se for maior que 50.000
+        #está se movimentando, se for menor está sentado
         if dado >= 50000:
             tipo = 1
         #grava os dados no banco
@@ -22,8 +22,8 @@ def index():
                             )
 
     #faz uma contagem dos dados do tipo 0 do dia
-    movendo = db((db.movimentos.tipo_movimento == 0) & (db.movimentos.dia == hoje)).count() or 0
+    movendo = db((db.movimentos.tipo_movimento == 1) & (db.movimentos.dia == hoje)).count() or 0
     #faz uma contagem dos dados do tipo 1 do dia
-    parado = db((db.movimentos.tipo_movimento == 1) & (db.movimentos.dia == hoje)).count() or 0
+    parado = db((db.movimentos.tipo_movimento == 0) & (db.movimentos.dia == hoje)).count() or 0
         
     return locals()
